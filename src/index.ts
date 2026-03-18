@@ -4,9 +4,10 @@ import {
 } from '@jupyterlab/application';
 import { IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 import { ITranslator } from '@jupyterlab/translation';
-import { caretDownIcon } from '@jupyterlab/ui-components';
+import { caretDownIcon, tabIcon } from '@jupyterlab/ui-components';
 import { Menu, MenuBar } from '@lumino/widgets';
-
+import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
+import { getVoilaUrl } from './tools';
 const FILE_BROWSER_FACTORY = 'FileBrowser';
 
 /**
@@ -33,7 +34,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     };
     const menubar = new MenuBar(overflowOptions);
     const newMenu = new Menu({ commands });
-    newMenu.title.label = trans.__('New aaa');
+    newMenu.title.label = trans.__('New');
     newMenu.title.icon = caretDownIcon;
     menubar.addMenu(newMenu);
 
@@ -42,22 +43,26 @@ const createNew: JupyterFrontEndPlugin<void> = {
       const specs = serviceManager.kernelspecs?.specs?.kernelspecs;
       const kernelSpecs = (specs ? Object.values(specs) : []).sort((a, b) => {
         // sort by display name
-        if (!b?.display_name) {
-          return -1;
+        const nameA = a?.display_name ?? '';
+        const nameB = b?.display_name ?? '';
+        if (!nameA && !nameB) {
+          return 0;
         }
-        if (!a?.display_name) {
+        if (!nameA) {
           return 1;
         }
-        return a.display_name.localeCompare(b?.display_name);
+        if (!nameB) {
+          return -1;
+        }
+        return nameA.localeCompare(nameB);
       });
       for (const spec of kernelSpecs) {
-        console.log('adding', spec?.name);
         newMenu.addItem({
           args: { kernelName: spec!.name, isLauncher: true },
           command: 'notebook:create-new'
         });
       }
-      console.log('aaaaaaaaaaaa', newMenu, toolbarRegistry);
+
       const baseCommands = [
         'terminal:create-new',
         'console:create',
@@ -92,4 +97,29 @@ const createNew: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export default [createNew];
+const openInVoila: JupyterFrontEndPlugin<void> = {
+  id: 'jupyter-ui-tweak:open-in-voila-plugin',
+  description: 'Open notebook in voila',
+  autoStart: true,
+  requires: [IFileBrowserFactory],
+  activate: (app: JupyterFrontEnd, factory: IFileBrowserFactory) => {
+    app.commands.addCommand('jupyter-ui-tweak/open-in-voila-command', {
+      label: 'Open In Voila',
+      caption: 'Open selected notebook in Voila',
+      isEnabled: () => true,
+      isVisible: () => true,
+      icon: tabIcon,
+      execute: () => {
+        const file = factory.tracker.currentWidget
+          ?.selectedItems()
+          .next().value;
+
+        if (file) {
+          window.open(getVoilaUrl(file.path), '_blank');
+        }
+      }
+    });
+  }
+};
+
+export default [createNew, openInVoila];

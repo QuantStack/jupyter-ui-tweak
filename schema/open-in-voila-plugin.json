@@ -1,0 +1,15 @@
+{
+  "title": "Context Menu",
+  "description": "Context Menu settings.",
+  "jupyter.lab.menus": {
+    "context": [
+      {
+        "command": "jupyter-ui-tweak/open-in-voila-command",
+        "selector": ".jp-DirListing-item[data-file-type=\"notebook\"]",
+        "rank": 0
+      }
+    ]
+  },
+  "additionalProperties": false,
+  "type": "object"
+}
