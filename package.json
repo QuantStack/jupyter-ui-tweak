@@ -1,7 +1,7 @@
 {
     "name": "jupyter-ui-tweak",
     "version": "0.1.0",
-    "description": "A JupyterLab extension.",
+    "description": "UI tweaks for Jupyter application.",
     "keywords": [
         "jupyter",
         "jupyterlab",
