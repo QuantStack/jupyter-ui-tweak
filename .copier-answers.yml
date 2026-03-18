@@ -1,0 +1,17 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: v4.5.2
+_src_path: https://github.com/jupyterlab/extension-template
+author_email: trung.le@quantstack.net
+author_name: Trung Le
+create_claude_symlink: false
+create_gemini_symlink: false
+has_ai_rules: true
+has_binder: false
+has_settings: false
+kind: frontend
+labextension_name: jupyter-ui-tweak
+project_short_description: A JupyterLab extension.
+python_name: jupyter_ui_tweak
+repository: https://github.com/QuantStack/jupyter-ui-tweak
+test: false
+
