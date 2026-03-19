@@ -4,10 +4,11 @@ import {
 } from '@jupyterlab/application';
 import { IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 import { ITranslator } from '@jupyterlab/translation';
-import { caretDownIcon, tabIcon } from '@jupyterlab/ui-components';
+import { caretDownIcon, launchIcon } from '@jupyterlab/ui-components';
 import { Menu, MenuBar } from '@lumino/widgets';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { getVoilaUrl } from './tools';
+import { VoilaButton } from './voilabutton';
 const FILE_BROWSER_FACTORY = 'FileBrowser';
 
 /**
@@ -108,7 +109,7 @@ const openInVoila: JupyterFrontEndPlugin<void> = {
       caption: 'Open selected notebook in Voila',
       isEnabled: () => true,
       isVisible: () => true,
-      icon: tabIcon,
+      icon: launchIcon,
       execute: () => {
         const file = factory.tracker.currentWidget
           ?.selectedItems()
@@ -119,6 +120,11 @@ const openInVoila: JupyterFrontEndPlugin<void> = {
         }
       }
     });
+
+    const { commands, docRegistry } = app;
+
+    const voilaButton = new VoilaButton(commands);
+    docRegistry.addWidgetExtension('Notebook', voilaButton);
   }
 };
 

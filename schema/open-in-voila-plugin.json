@@ -6,7 +6,7 @@
       {
         "command": "jupyter-ui-tweak/open-in-voila-command",
         "selector": ".jp-DirListing-item[data-file-type=\"notebook\"]",
-        "rank": 0
+        "rank": 3
       }
     ]
   },

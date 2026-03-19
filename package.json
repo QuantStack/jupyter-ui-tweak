@@ -57,7 +57,8 @@
     },
     "dependencies": {
         "@jupyterlab/application": "^4.0.0",
-        "@jupyterlab/filebrowser": "^4.5.6"
+        "@jupyterlab/filebrowser": "^4.5.6",
+        "@jupyterlab/notebook": "^4.5.6"
     },
     "devDependencies": {
         "@jupyterlab/builder": "^4.0.0",
